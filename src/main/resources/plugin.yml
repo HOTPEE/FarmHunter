@@ -1,0 +1,9 @@
+name: FarmHunter
+version: 0.0.1BETA
+main: com.github.hotpee.farmhunter.FarmHunter
+api-version: 1.13
+commands:
+  farmhunter:
+    aliases: [fh]
+    description: Command help for FarmHunter
+

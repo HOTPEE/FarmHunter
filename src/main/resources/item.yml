@@ -1,0 +1,32 @@
+Items:
+  LeaveGame:
+    Name: "&b离开游戏 - &e&l(右键使用)"
+    Lore:
+      - "&7离开当前游戏"
+    Cooldown: 0
+  SwapWand:
+    Name: "&b交换魔棒 - &e&l(右键使用)"
+    Lore:
+      - "&7右键场内动物可以变成相应动物"
+    Cooldown: 0
+  LowTaunt:
+    Name: "&b小声的嘲讽 - &e&l(右键使用)"
+    Lore:
+      - "&7右键发出小声的嘲讽"
+    Cooldown: 10
+  HighTaunt:
+    Name: "&b大声的嘲讽 - &e&l(右键使用)"
+    Lore:
+      - "&7右键发出大声的嘲讽"
+    Cooldown: 15
+  LocationTaunt:
+    Name: "&b暴露坐标的嘲讽 - &e&l(右键使用)"
+    Lore:
+      - "&7右键给所有玩家发出自己的坐标并发出声音"
+    Cooldown: 20
+  TntSheep:
+    Name: "&b炸弹羊 - &e&l(右键使用)"
+    Lore:
+      - "&7右键召唤一个炸弹羊在身旁"
+      - "&7可对周围的动物造成大量伤害"
+    Cooldown: 10
