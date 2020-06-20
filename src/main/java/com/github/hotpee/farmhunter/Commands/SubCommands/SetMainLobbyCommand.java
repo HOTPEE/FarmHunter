@@ -22,7 +22,7 @@ public class SetMainLobbyCommand extends SubCommand {
             return;
         }
         FarmHunter.getIns().getConfig().set("MainLobby", player.getLocation());
-        Util.Message(player, ConfigManager.getPrefix() + "&b成功设置主大厅!");
+        Util.Message(player, ConfigManager.getPrefix() + "&b成功设置总大厅");
         FarmHunter.getIns().saveConfig();
         FarmHunter.getIns().mainLobby = FarmHunter.getIns().getConfig().getLocation("MainLobby");
     }

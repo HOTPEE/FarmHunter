@@ -29,12 +29,9 @@ public class DamageListener implements Listener {
         if (!(arena.isStates())){
             return;
         }
-        Entity damager = e.getEntity().getKiller();
-        if (damager instanceof Explosive){
-            for (Player players : arena.getPlayerAmount().keySet()){
-                Util.Message(players, ConfigManager.getPrefix() + "&3玩家 &e" + p.getName() + " &e被炸死了");
-            }
-        } else {
+        if (p.getLastDamageCause() != null && p.getLastDamageCause() instanceof EntityDamageByEntityEvent){
+            EntityDamageByEntityEvent event = (EntityDamageByEntityEvent)p.getLastDamageCause();
+            Entity damager = event.getDamager();
             for (Player players : arena.getPlayerAmount().keySet()){
                 Util.Message(players, ConfigManager.getPrefix() + "&3玩家 &e" + damager.getName() + " &3击杀了 &e" + p.getName());
             }
@@ -66,20 +63,13 @@ public class DamageListener implements Listener {
                     e.setCancelled(true);
                 }
             }
-        }
-        if (e.getEntity() instanceof Animals){
-            Player p = (Player)e.getEntity();
-            Arena arena = Util.getArena(p);
-            if (arena == null){
-                return;
-            }
-            if (!(arena.isStates())){
-                return;
-            }
-            if (e.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION || e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION){
-                e.setCancelled(true);
+            if (e.getEntity() instanceof Animals){
+                if (e.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION || e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION){
+                    e.setCancelled(true);
+                }
             }
         }
+
 
     }
 

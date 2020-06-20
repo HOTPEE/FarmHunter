@@ -24,7 +24,7 @@ public class SaveCommand extends SubCommand {
             return;
         }
         String name = args[1];
-        Util.Message(player, ConfigManager.getPrefix() + "&b成功保存所有竞技场!");
+        Util.Message(player, ConfigManager.getPrefix() + "&b成功保存该竞技场");
         for (String Arena : FarmHunter.getIns().arenafile.getConfigurationSection("ArenaList").getKeys(false)) {
             Arena arena = new Arena(Arena);
             if (FarmHunter.getIns().getArena().contains(arena)){

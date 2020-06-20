@@ -5,6 +5,8 @@ import com.github.hotpee.farmhunter.Commands.CommandManager;
 import com.github.hotpee.farmhunter.Listeners.DamageListener;
 import com.github.hotpee.farmhunter.Listeners.InteractListener;
 import com.github.hotpee.farmhunter.Listeners.OtherListener;
+import com.github.hotpee.farmhunter.Metrics.Metrics;
+import com.github.hotpee.farmhunter.Metrics.Metrics_cStats;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -20,19 +22,34 @@ public final class FarmHunter extends JavaPlugin {
     public File ItemFile = new File(getDataFolder(), "item.yml");
     public Location mainLobby;
     private static FarmHunter ins;
+    public static boolean BungeeState = false;
 
     private ArrayList<Arena> arena = new ArrayList<>();
     public CommandManager commandManager;
 
     @Override
     public void onEnable() {
+        if (Bukkit.getPluginManager().isPluginEnabled("LibsDisguises")) {
+            getLogger().info("Libsdisguises检测成功!插件正常启动");
+        } else {
+            getLogger().info("Libsdisguises获取失败!插件已关闭");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
         ins = this;
         load();
         saveDefaultConfig();
         regListener();
+        Bukkit.getConsoleSender().sendMessage("§7[§bFarmHunter§7] §a农场躲猫猫已正常启动!");
+        Bukkit.getConsoleSender().sendMessage("§7[§bFarmHunter§7] §7版本 : §6" + getDescription().getVersion());
+        Bukkit.getConsoleSender().sendMessage("§b");
+        Bukkit.getConsoleSender().sendMessage("§7[§bFarmHunter§7] §3如果遇到任何BUG欢迎在插件发布贴留言");
         mainLobby = getConfig().getLocation("MainLobby");
         commandManager = new CommandManager();
         commandManager.setUp();
+        int pluginId = 7840;
+        new Metrics_cStats(this);
+        new Metrics(this, pluginId);
 
     }
 
@@ -71,7 +88,6 @@ public final class FarmHunter extends JavaPlugin {
         for (String Arena : arenafile.getConfigurationSection("ArenaList").getKeys(false)) {
             Arena arenas = new Arena(Arena);
             getArena().add(arenas);
-            getLogger().info("" + getArena().size());
         }
     }
     private void checkFile(){

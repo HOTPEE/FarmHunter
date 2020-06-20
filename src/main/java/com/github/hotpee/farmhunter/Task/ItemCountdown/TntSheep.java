@@ -39,10 +39,10 @@ public class TntSheep {
             @Override
             public void run() {
                 tntcooldown.put(player, tntcooldown.get(player) - 1);
-                sheep.setCustomName("§b§l" + tntcooldown.getOrDefault(player, 3));
+                sheep.setCustomName("§b§l爆炸倒计时: " + tntcooldown.getOrDefault(player,  3));
                 if (tntcooldown.get(player) == 0){
+                    sheep.remove();
                     sheep.getLocation().getWorld().createExplosion(sheep.getLocation(), 5);
-                    sheep.setLastDamage(10000);
                     cancel();
                     return;
                 }

@@ -52,7 +52,7 @@ public class CommandManager implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)){
-            sender.sendMessage(ConfigManager.getPrefix().replaceAll("&", "§") + "§c本插件只能是玩家运行");
+            sender.sendMessage(ConfigManager.getPrefix().replaceAll("&", "§") + "§cConsole can't use commands");
             return true;
         }
         Player player = (Player) sender;
@@ -63,7 +63,7 @@ public class CommandManager implements CommandExecutor {
             }
             SubCommand target = this.get(args[0]);
             if (target == null){
-                Util.Message(player,ConfigManager.getPrefix() + "§c警告，未知指令");
+                Util.Message(player,ConfigManager.getPrefix() + "§cWarning!! Unknown Commands");
                 return true;
             }
 
@@ -74,7 +74,7 @@ public class CommandManager implements CommandExecutor {
             try{
                 target.onCommand(player,args);
             } catch (Exception e){
-                Util.Message(player,ConfigManager.getPrefix() + "§4发生了严重错误，请查看后台报错");
+                Util.Message(player,ConfigManager.getPrefix() + "§4Some error occurred, Please check the console error");
                 e.printStackTrace();
             }
         }

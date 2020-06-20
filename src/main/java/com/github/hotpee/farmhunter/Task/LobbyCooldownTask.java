@@ -1,24 +1,29 @@
 package com.github.hotpee.farmhunter.Task;
 
 import com.github.hotpee.farmhunter.Arena.Arena;
+import com.github.hotpee.farmhunter.Arena.ArenaScoreBoard;
 import com.github.hotpee.farmhunter.ConfigManager.ConfigManager;
 import com.github.hotpee.farmhunter.Util.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class LobbyCooldownTask extends BukkitRunnable {
-    private int time = ConfigManager.getLobbyCooldown();
+    private int time;
     private Arena arena;
     public LobbyCooldownTask(Arena arena){
         this.arena = arena;
+        this.time = ConfigManager.getLobbyCooldown();
     }
 
 
     @Override
     public void run() {
+        ArenaScoreBoard.CountdownScoreBoard(this, arena);
         if (arena.getPlayerAmount().size() < arena.getMinPlayers()){
             for (Player players : arena.getPlayerAmount().keySet()) {
+                ArenaScoreBoard.lobbyScoreBoard(this, arena);
                 Util.Message(players, ConfigManager.getPrefix() + ConfigManager.getArenaNotEnough().replaceAll("<0>", String.valueOf(time)));
             }
             cancel();
@@ -56,5 +61,9 @@ public class LobbyCooldownTask extends BukkitRunnable {
             players.setLevel(time);
         }
         time--;
+    }
+
+    public int getTime() {
+        return time;
     }
 }

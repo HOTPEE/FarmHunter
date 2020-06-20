@@ -33,7 +33,7 @@ public class SetMaxPlayersCommand extends SubCommand {
                 e.printStackTrace();
             }
         } catch (NumberFormatException e){
-            Util.Message(player,ConfigManager.getPrefix() + "§4发生了严重错误，请查看后台报错");
+            Util.Message(player,ConfigManager.getPrefix() + "§4请填写有效数字");
             e.printStackTrace();
         }
         Util.Message(player, ConfigManager.getPrefix() + ConfigManager.getMaxPlayerSetUp().replaceAll("<0>", String.valueOf(args[2])));

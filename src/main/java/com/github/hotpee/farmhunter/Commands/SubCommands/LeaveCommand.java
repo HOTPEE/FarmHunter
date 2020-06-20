@@ -16,7 +16,7 @@ public class LeaveCommand extends SubCommand {
         }
         Arena arena = Util.getArena(player);
         if (arena == null){
-            Util.Message(player, ConfigManager.getPrefix() + "&b退出失败，你并未在任何游戏");
+            Util.Message(player, ConfigManager.getPrefix() + "&b你没有在任何竞技场内");
             return;
         }
         arena.leaveGame(player);

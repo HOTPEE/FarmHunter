@@ -13,9 +13,11 @@ import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
@@ -23,6 +25,7 @@ import java.util.*;
 
 public class Arena {
     private static File ArenaFile = new File(FarmHunter.getIns().getDataFolder(), "arenas.yml");
+    LobbyCooldownTask lct;
     FileConfiguration arena = YamlConfiguration.loadConfiguration(ArenaFile);
     private Map<Player, Teams> playerAmount = new HashMap<>();
     private Boolean States = false;
@@ -80,8 +83,11 @@ public class Arena {
             Util.Message(players, ConfigManager.getPrefix() + ConfigManager.getPlayersJoin().replaceAll("<0>", String.valueOf(playerAmount.size())).replaceAll("<1>", String.valueOf(this.getMaxPlayers())));
         }
         if (playerAmount.size() >= this.minPlayers){
+            player.removeScoreboardTag("FarmHunter");
             startCount();
         }
+        player.removeScoreboardTag("FarmHunter");
+        ArenaScoreBoard.lobbyScoreBoard(lct, this);
 
     }
     public void leaveGame(Player player){
@@ -97,17 +103,24 @@ public class Arena {
                 stopGame();
             }
         }
+        if (ConfigManager.isBungee()){
+            Util.send(player, ConfigManager.getServerName());
+            return;
+        }
 
     }
 
     public void startCount() {
-        LobbyCooldownTask lct = new LobbyCooldownTask(this);
+        lct = new LobbyCooldownTask(this);
         lct.runTaskTimer(FarmHunter.getIns(), 0L, 20L);
     }
 
     public void startGame(){
         gltt = new GameLeftTimeTask(this);
         gltt.runTaskTimer(FarmHunter.getIns(), 0L, 20L);
+        if (ConfigManager.isBungee()){
+            FarmHunter.BungeeState = true;
+        }
         setStates(true);
         for (Player players : playerAmount.keySet()) {
             Util.Message(players, ConfigManager.getPrefix() + ConfigManager.getGameStart());
@@ -119,23 +132,23 @@ public class Arena {
                 dis.setEntity(players);
                 dis.startDisguise();
                 dis.setViewSelfDisguise(false);
-                Util.MessageTitle(players, "&7", "&b你的身份是 &e" + Teams.HIDER.name() + " &b躲避寻找者的追杀!");
+                Util.MessageTitle(players, "&7", "&b身份： &e" + Teams.HIDER.name() + ", &b躲起来!!!!!");
             }
             if (playerAmount.get(players) == Teams.SEEKER){
                 players.setGameMode(GameMode.ADVENTURE);
                 players.teleport(SeekerWaitSpawn);
                 ItemUtil.sendSeekerItem(players, "TntSheep");
-                Util.MessageTitle(players, "&7", "&b你的身份是 &e" + Teams.SEEKER.name() + " &b找到躲藏者并收入麾下!");
+                Util.MessageTitle(players, "&7", "&b身份: &e" + Teams.SEEKER.name() + " &b找到所有动物并收归麾下");
                 new BukkitRunnable(){
                     @Override
                     public void run() {
                         if (isStates()){
                             players.teleport(SeekerSpawn);
                             if (playerAmount.get(players) == Teams.HIDER){
-                                Util.MessageTitle(players, "&7", "&a寻找者已出动!!!");
+                                Util.MessageTitle(players, "&7", "&a寻找者现在已经出来了");
                             }
                             if (playerAmount.get(players) == Teams.SEEKER){
-                                Util.MessageTitle(players, "&7", "&a开始狩猎吧!!");
+                                Util.MessageTitle(players, "&7", "&a开始你的狩猎");
                             }
                         }
                         cancel();
@@ -145,7 +158,7 @@ public class Arena {
         }
     }
     public void stopGame(){
-        Winner = getPlayerAmount().containsValue(Teams.HIDER) ? "躲藏者" : "寻找者";
+        Winner = getPlayerAmount().containsValue(Teams.HIDER) ? "躲避者" : "寻找者";
         Iterator<Player> iterator = playerAmount.keySet().iterator();
         while (iterator.hasNext()) {
             Player players = iterator.next();
@@ -156,8 +169,16 @@ public class Arena {
             iterator.remove();
         }
         gltt.cancel();
-        setStates(false);
+        if (ConfigManager.isBungee()){
+            new BukkitRunnable(){
 
+                @Override
+                public void run() {
+                    FarmHunter.getIns().getServer().shutdown();
+                }
+            }.runTaskLater(FarmHunter.getIns(), 40L);
+        }
+        setStates(false);
     }
     public int SeekerAmount(){
         return (int) Math.ceil(getPlayerAmount().size() / 3.0);

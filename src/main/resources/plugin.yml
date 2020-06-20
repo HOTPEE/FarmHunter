@@ -1,7 +1,8 @@
 name: FarmHunter
-version: 0.0.1BETA
+version: 0.1.1BETA
 main: com.github.hotpee.farmhunter.FarmHunter
 api-version: 1.13
+softdepend: [LibsDisguises]
 commands:
   farmhunter:
     aliases: [fh]

@@ -2,6 +2,8 @@ package com.github.hotpee.farmhunter.Util;
 
 import com.github.hotpee.farmhunter.Arena.Arena;
 import com.github.hotpee.farmhunter.FarmHunter;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,6 +22,14 @@ public class Util {
                 return arena;
         }
         return null;
+    }
+
+    public static void send(Player player, String server) {
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("ConnectOther");
+        out.writeUTF(player.getName());
+        out.writeUTF(server);
+        player.sendPluginMessage(FarmHunter.getIns(), "BungeeCord", out.toByteArray());
     }
 
     public static void Help(Player player) {

@@ -13,6 +13,12 @@ public class ConfigManager {
     public static int getLobbyCooldown(){
         return FarmHunter.getIns().getConfig().getInt("LobbyCooldown");
     }
+    public static String getServerName(){
+        return FarmHunter.getIns().getConfig().getString("BungeeCordHub");
+    }
+    public static boolean isBungee(){
+        return FarmHunter.getIns().getConfig().getBoolean("BungeeCordMode");
+    }
 
     public static String getNoPermission(){
         return FarmHunter.getIns().getConfig().getString("Language.noPermission").replaceAll("§","&");
@@ -82,6 +88,35 @@ public class ConfigManager {
     }
     public static String getLobbySetUp(){
         return FarmHunter.getIns().getConfig().getString("Language.arenaLobby").replaceAll("§","&");
+    }
+
+
+    public static String getScorePrefix(){
+        return FarmHunter.getIns().getConfig().getString("ScoreBoard.Prefix").replaceAll("§","&");
+    }
+    public static List<String> getScoreLobbyLore(){
+        List<String> list = FarmHunter.getIns().getConfig().getStringList("ScoreBoard.ScoreBoard-Lobby.List");
+        for (int i = 0; i < list.size(); i++) {
+            list.set(i, ChatColor.translateAlternateColorCodes('&', list.get(i)));
+        }
+        return list;
+
+    }
+    public static List<String> getScoreStartingLore(){
+        List<String> list = FarmHunter.getIns().getConfig().getStringList("ScoreBoard.ScoreBoard-Starting.List");
+        for (int i = 0; i < list.size(); i++) {
+            list.set(i, ChatColor.translateAlternateColorCodes('&', list.get(i)));
+        }
+        return list;
+
+    }
+    public static List<String> getScoreGameLore(){
+        List<String> list = FarmHunter.getIns().getConfig().getStringList("ScoreBoard.ScoreBoard-Game.List");
+        for (int i = 0; i < list.size(); i++) {
+            list.set(i, ChatColor.translateAlternateColorCodes('&', list.get(i)));
+        }
+        return list;
+
     }
 
 }

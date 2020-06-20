@@ -33,7 +33,7 @@ public class ItemUtil {
         player.getInventory().setItem(8, is);
     }
     public static void sendSeekerItem(Player player, String name){
-        ItemStack tnt = new ItemStack(Material.REDSTONE, 1);
+        ItemStack tnt = new ItemStack(Material.SHEEP_SPAWN_EGG, 1);
         ItemStack Bow = new ItemStack(Material.BOW, 1);
         ItemMeta bow = Bow.getItemMeta();
         ItemMeta tntmeta = tnt.getItemMeta();
@@ -49,7 +49,7 @@ public class ItemUtil {
         player.getInventory().addItem(Bow);
         player.getInventory().setItem(8, tnt);
         player.getInventory().addItem(new ItemStack(Material.ARROW, 1));
-        player.getInventory().setItemInMainHand(new ItemStack(Material.DIAMOND_SWORD, 1));
+        player.getInventory().setItem(5, new ItemStack(Material.DIAMOND_SWORD, 1));
         player.getInventory().setHelmet(new ItemStack(Material.DIAMOND_HELMET, 1));
         player.getInventory().setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE, 1));
         player.getInventory().setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS, 1));

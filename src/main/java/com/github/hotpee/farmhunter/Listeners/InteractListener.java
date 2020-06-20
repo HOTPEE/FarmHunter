@@ -77,9 +77,15 @@ public class InteractListener implements Listener {
             return;
         }
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK){
-            if (e.getItem().getItemMeta().getDisplayName().equals(ItemManager.getItemName("LeaveGame"))){
-                arena.leaveGame(p);
-                e.setCancelled(true);
+            if (e.getItem().hasItemMeta()){
+                if (e.getItem().getItemMeta().getDisplayName().equals(ItemManager.getItemName("LeaveGame"))){
+                    arena.leaveGame(p);
+                    e.setCancelled(true);
+                } else {
+                    e.setCancelled(true);
+                }
+            } else {
+                return;
             }
         }
         if (!(arena.isStates())){
@@ -111,7 +117,6 @@ public class InteractListener implements Listener {
                     Util.Message(p, ConfigManager.getPrefix() +
                             ConfigManager.getItemCooldown().replaceAll("<0>", String.valueOf(TntSheep.getCooldown(p))));
                     e.setCancelled(true);
-
                 }
 
             }
