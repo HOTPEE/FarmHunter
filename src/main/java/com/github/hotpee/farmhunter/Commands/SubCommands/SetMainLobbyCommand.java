@@ -4,11 +4,7 @@ import com.github.hotpee.farmhunter.Commands.SubCommand;
 import com.github.hotpee.farmhunter.ConfigManager.ConfigManager;
 import com.github.hotpee.farmhunter.FarmHunter;
 import com.github.hotpee.farmhunter.Util.Util;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-
-import java.io.File;
 
 public class SetMainLobbyCommand extends SubCommand {
     @Override
@@ -21,10 +17,10 @@ public class SetMainLobbyCommand extends SubCommand {
             Util.Message(player, ConfigManager.getPrefix() + "&c参数不正确，请检查你的参数");
             return;
         }
-        FarmHunter.getIns().getConfig().set("MainLobby", player.getLocation());
+        Util.setLocation(FarmHunter.getIns().getConfig().createSection("MainLobby"), player.getLocation());
         Util.Message(player, ConfigManager.getPrefix() + "&b成功设置总大厅");
         FarmHunter.getIns().saveConfig();
-        FarmHunter.getIns().mainLobby = FarmHunter.getIns().getConfig().getLocation("MainLobby");
+        FarmHunter.getIns().mainLobby = Util.getLocation(FarmHunter.getIns().getConfig().getConfigurationSection("MainLobby"));
     }
 
     @Override

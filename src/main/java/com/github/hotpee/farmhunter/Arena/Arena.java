@@ -10,14 +10,11 @@ import com.github.hotpee.farmhunter.Util.Util;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
@@ -45,10 +42,10 @@ public class Arena {
         this.maxPlayers = arena.getInt("ArenaList." + name + ".maxPlayers");
         this.minPlayers = arena.getInt("ArenaList." + name + ".minPlayers");
         this.time = arena.getInt("ArenaList." + name + ".time");
-        this.HiderSpawn = arena.getLocation("ArenaList." + name + ".hiderSpawn");
-        this.SeekerSpawn = arena.getLocation("ArenaList." + name + ".seekerSpawn");
-        this.SeekerWaitSpawn = arena.getLocation("ArenaList." + name + ".seekerWaitSpawn");
-        this.lobbyLocation = arena.getLocation("ArenaList." + name + ".lobbySpawn");
+        this.HiderSpawn = Util.getLocation(arena.getConfigurationSection("ArenaList." + name + ".hiderSpawn"));
+        this.SeekerSpawn = Util.getLocation(arena.getConfigurationSection("ArenaList." + name + ".seekerSpawn"));
+        this.SeekerWaitSpawn = Util.getLocation(arena.getConfigurationSection("ArenaList." + name + ".seekerWaitSpawn"));
+        this.lobbyLocation = Util.getLocation(arena.getConfigurationSection("ArenaList." + name + ".lobbySpawn"));
     }
 
     public void addTeams(){

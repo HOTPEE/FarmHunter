@@ -5,11 +5,8 @@ import com.github.hotpee.farmhunter.ConfigManager.ConfigManager;
 import com.github.hotpee.farmhunter.FarmHunter;
 import com.github.hotpee.farmhunter.Util.Util;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
 import java.io.IOException;
 
 public class SetSpawnCommand extends SubCommand {
@@ -31,7 +28,7 @@ public class SetSpawnCommand extends SubCommand {
                 case "SeekerWaitSpawn":
                     Util.Message(player, ConfigManager.getPrefix() + ConfigManager.getSpawnSetUp().replaceAll("<0>", "寻找者等待出生点"));
                     sec = FarmHunter.getIns().arenafile.getConfigurationSection("ArenaList." + name);
-                    sec.set("seekerWaitSpawn", player.getLocation());
+                    Util.setLocation(sec.createSection("seekerWaitSpawn"), player.getLocation());
                     try {
                         FarmHunter.getIns().arenafile.save(FarmHunter.getIns().ArenaFile);
                     } catch (IOException e) {
@@ -41,7 +38,7 @@ public class SetSpawnCommand extends SubCommand {
                 case "SeekerSpawn":
                     Util.Message(player, ConfigManager.getPrefix() + ConfigManager.getSpawnSetUp().replaceAll("<0>", "寻找者出生点"));
                     sec = FarmHunter.getIns().arenafile.getConfigurationSection("ArenaList." + name);
-                    sec.set("seekerSpawn", player.getLocation());
+                    Util.setLocation(sec.createSection("seekerSpawn"), player.getLocation());
                     try {
                         FarmHunter.getIns().arenafile.save(FarmHunter.getIns().ArenaFile);
                     } catch (IOException e) {
@@ -51,7 +48,7 @@ public class SetSpawnCommand extends SubCommand {
                 case "HiderSpawn":
                     Util.Message(player, ConfigManager.getPrefix() + ConfigManager.getSpawnSetUp().replaceAll("<0>", "躲藏者出生点"));
                     sec = FarmHunter.getIns().arenafile.getConfigurationSection("ArenaList." + name);
-                    sec.set("hiderSpawn", player.getLocation());
+                    Util.setLocation(sec.createSection("hiderSpawn"), player.getLocation());
                     try {
                         FarmHunter.getIns().arenafile.save(FarmHunter.getIns().ArenaFile);
                     } catch (IOException e) {

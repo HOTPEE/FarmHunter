@@ -3,9 +3,13 @@ package com.github.hotpee.farmhunter.Util;
 import com.github.hotpee.farmhunter.ConfigManager.ItemManager;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SpawnEggMeta;
+import org.bukkit.material.MaterialData;
+import org.bukkit.material.SpawnEgg;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,8 +36,15 @@ public class ItemUtil {
         player.getInventory().clear();
         player.getInventory().setItem(8, is);
     }
-    public static void sendSeekerItem(Player player, String name){
-        ItemStack tnt = new ItemStack(Material.SHEEP_SPAWN_EGG, 1);
+    public static void sendSeekerItem(Player player, String name) {
+        // TODO: 配置文件, 先简单粗暴
+        // TODO: 这个好像有点小麻烦啊, 不过并不是我要考虑的了吧? (甩锅)
+        ItemStack tnt;
+        try {
+            tnt = new SpawnEgg(EntityType.SHEEP).toItemStack(1);
+        } catch (Exception ignored) {
+            tnt = new ItemStack(Material.valueOf("SHEEP_SPAWN_EGG"), 1);
+        }
         ItemStack Bow = new ItemStack(Material.BOW, 1);
         ItemMeta bow = Bow.getItemMeta();
         ItemMeta tntmeta = tnt.getItemMeta();

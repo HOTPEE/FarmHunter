@@ -125,7 +125,14 @@ public class InteractListener implements Listener {
             if (e.getItem().getItemMeta().getDisplayName().equals(ItemManager.getItemName("HighTaunt"))){
                 if (HighTaunt.getCooldown(p) == 0){
                     HighTaunt.setCooldown(p, ItemManager.getCooldown("HighTaunt"));
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_AMBIENT, 10, 1);
+                    // TODO: ... 从文件读取要播放的音效, 这里暂时用简单粗暴的方法
+                    Sound sound = null;
+                    try {
+                        sound = Sound.valueOf("ENTITY_ENDERDRAGON_AMBIENT");
+                    } catch (Exception ignored) {
+                        sound = Sound.valueOf("ENTITY_ENDER_DRAGON_AMBIENT");
+                    }
+                    p.getWorld().playSound(p.getLocation(), sound, 10, 1);
                     Util.Message(p, ConfigManager.getPrefix() + "&b嘲讽成功!! 你已使用大声的嘲讽...");
                     e.setCancelled(true);
                 } else {

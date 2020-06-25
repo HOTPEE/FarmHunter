@@ -22,7 +22,8 @@ public class ArenaScoreBoard {
         scoreboards = ConfigManager.getScoreLobbyLore();
         sm = Bukkit.getScoreboardManager();
         s = sm.getNewScoreboard();
-        o = s.registerNewObjective("FarmHunter", "dummy", "");
+        // TODO: registerNewObjective 先改回 1.12 的参数, 添加版本判断, 高版本使用高版本的参数
+        o = s.registerNewObjective("FarmHunter", "dummy");
         o.setDisplaySlot(DisplaySlot.SIDEBAR);
         o.setDisplayName(ChatColor.translateAlternateColorCodes('&', ConfigManager.getScorePrefix()));
         for (int i = 0; i < scoreboards.size(); i++) {
@@ -40,7 +41,8 @@ public class ArenaScoreBoard {
         scoreboards = ConfigManager.getScoreStartingLore();
         sm = Bukkit.getScoreboardManager();
         s = sm.getNewScoreboard();
-        o = s.registerNewObjective("FarmHunter", "dummy", "");
+        // TODO: registerNewObjective 先改回 1.12 的参数, 添加版本判断, 高版本使用高版本的参数
+        o = s.registerNewObjective("FarmHunter", "dummy");
         o.setDisplaySlot(DisplaySlot.SIDEBAR);
         o.setDisplayName(ChatColor.translateAlternateColorCodes('&', ConfigManager.getScorePrefix()));
         for (int i = 0; i < scoreboards.size(); i++) {
@@ -61,7 +63,8 @@ public class ArenaScoreBoard {
         scoreboards = ConfigManager.getScoreGameLore();
         sm = Bukkit.getScoreboardManager();
         s = sm.getNewScoreboard();
-        o = s.registerNewObjective("FarmHunter", "dummy", "");
+        // TODO: registerNewObjective 先改回 1.12 的参数, 添加版本判断, 高版本使用高版本的参数
+        o = s.registerNewObjective("FarmHunter", "dummy");
         o.setDisplaySlot(DisplaySlot.SIDEBAR);
         o.setDisplayName(ChatColor.translateAlternateColorCodes('&', ConfigManager.getScorePrefix()));
         for (int i = 0; i < scoreboards.size(); i++) {

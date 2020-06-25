@@ -7,6 +7,7 @@ import com.github.hotpee.farmhunter.Listeners.InteractListener;
 import com.github.hotpee.farmhunter.Listeners.OtherListener;
 import com.github.hotpee.farmhunter.Metrics.Metrics;
 import com.github.hotpee.farmhunter.Metrics.Metrics_cStats;
+import com.github.hotpee.farmhunter.Util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -44,7 +45,7 @@ public final class FarmHunter extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage("§7[§bFarmHunter§7] §7版本 : §6" + getDescription().getVersion());
         Bukkit.getConsoleSender().sendMessage("§b");
         Bukkit.getConsoleSender().sendMessage("§7[§bFarmHunter§7] §3如果遇到任何BUG欢迎在插件发布贴留言");
-        mainLobby = getConfig().getLocation("MainLobby");
+        mainLobby = Util.getLocation(getConfig().createSection("MainLobby"));
         commandManager = new CommandManager();
         commandManager.setUp();
         int pluginId = 7840;
