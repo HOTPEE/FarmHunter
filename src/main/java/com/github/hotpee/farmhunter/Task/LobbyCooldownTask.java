@@ -21,13 +21,6 @@ public class LobbyCooldownTask extends BukkitRunnable {
     @Override
     public void run() {
         ArenaScoreBoard.CountdownScoreBoard(this, arena);
-        if (arena.getPlayerAmount().size() < arena.getMinPlayers()){
-            for (Player players : arena.getPlayerAmount().keySet()) {
-                ArenaScoreBoard.lobbyScoreBoard(this, arena);
-                Util.Message(players, ConfigManager.getPrefix() + ConfigManager.getArenaNotEnough().replaceAll("<0>", String.valueOf(time)));
-            }
-            cancel();
-        }
         if (time == 60){
             for (Player players : arena.getPlayerAmount().keySet()) {
                 Util.Message(players, ConfigManager.getPrefix() + ConfigManager.getLobbyCooldownMsg().replaceAll("<0>", String.valueOf(time)));

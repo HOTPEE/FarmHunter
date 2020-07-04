@@ -84,5 +84,9 @@ public class ArenaScoreBoard {
         s.getObjective(DisplaySlot.SIDEBAR).getScore(text).setScore(Math.abs(slot - scoreboards.size()));
     }
 
+    public static void removeScoreboards(Player player){
+        player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).unregister();
+    }
+
 
 }

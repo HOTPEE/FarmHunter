@@ -3,7 +3,11 @@ package com.github.hotpee.farmhunter.Task;
 import com.github.hotpee.farmhunter.Arena.Arena;
 import com.github.hotpee.farmhunter.Arena.ArenaScoreBoard;
 import com.github.hotpee.farmhunter.Util.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -14,10 +18,15 @@ public class GameLeftTimeTask extends BukkitRunnable {
     private int time;
     private int Totaltime;
     private Arena arena;
+    private BossBar bb;
     public GameLeftTimeTask(Arena arena){
         this.arena = arena;
         this.time = arena.getTime();
         this.Totaltime = arena.getTime();
+        this.bb = Bukkit.createBossBar("§6§l剩余时间: §b" + this.time, BarColor.YELLOW, BarStyle.SOLID);
+        for (Player players : arena.getPlayerAmount().keySet()){
+            bb.addPlayer(players);
+        }
     }
 
     public int getTime() {
@@ -26,6 +35,8 @@ public class GameLeftTimeTask extends BukkitRunnable {
 
     @Override
     public void run() {
+        bb.setTitle("§6§l剩余时间: §e§l" + this.time + " §6§l秒");
+        bb.setProgress((double)time / Totaltime);
         for (Player players : arena.getPlayerAmount().keySet()){
             ArenaScoreBoard.GameScoreBoard(this, arena, players);
         }
@@ -51,4 +62,9 @@ public class GameLeftTimeTask extends BukkitRunnable {
         time--;
 
     }
+
+    public BossBar getBb() {
+        return bb;
+    }
 }
+

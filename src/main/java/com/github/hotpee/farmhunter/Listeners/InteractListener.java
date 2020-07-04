@@ -3,6 +3,8 @@ package com.github.hotpee.farmhunter.Listeners;
 import com.github.hotpee.farmhunter.Arena.Arena;
 import com.github.hotpee.farmhunter.ConfigManager.ConfigManager;
 import com.github.hotpee.farmhunter.ConfigManager.ItemManager;
+import com.github.hotpee.farmhunter.Event.DisguiseChangeEvent;
+import com.github.hotpee.farmhunter.Event.GameOverEvent;
 import com.github.hotpee.farmhunter.Task.ItemCountdown.HighTaunt;
 import com.github.hotpee.farmhunter.Task.ItemCountdown.LocationTaunt;
 import com.github.hotpee.farmhunter.Task.ItemCountdown.LowTaunt;
@@ -12,6 +14,7 @@ import com.github.hotpee.farmhunter.Util.Util;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.events.DisguiseInteractEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -45,6 +48,7 @@ public class InteractListener implements Listener {
             dis.setEntity(p);
             dis.startDisguise();
             dis.setViewSelfDisguise(false);
+            Bukkit.getPluginManager().callEvent(new DisguiseChangeEvent(arena, dis));
             Util.MessageTitle(p, "&b", "&7你已变成了 " + e.getRightClicked().getName());
         }
     }
@@ -81,8 +85,6 @@ public class InteractListener implements Listener {
                 if (e.getItem().getItemMeta().getDisplayName().equals(ItemManager.getItemName("LeaveGame"))){
                     arena.leaveGame(p);
                     e.setCancelled(true);
-                } else {
-                    e.setCancelled(true);
                 }
             } else {
                 return;
@@ -102,7 +104,6 @@ public class InteractListener implements Listener {
                     Util.Message(p, ConfigManager.getPrefix() +
                             ConfigManager.getItemCooldown().replaceAll("<0>", String.valueOf(LowTaunt.getCooldown(p))));
                     e.setCancelled(true);
-
                 }
 
             }

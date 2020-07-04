@@ -5,10 +5,12 @@ import com.github.hotpee.farmhunter.FarmHunter;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Util {
+    
     public static void Message(CommandSender p, String s){
         p.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
     }

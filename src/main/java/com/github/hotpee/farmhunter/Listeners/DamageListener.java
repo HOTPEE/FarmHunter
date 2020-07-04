@@ -2,14 +2,15 @@ package com.github.hotpee.farmhunter.Listeners;
 
 import com.github.hotpee.farmhunter.Arena.Arena;
 import com.github.hotpee.farmhunter.ConfigManager.ConfigManager;
+import com.github.hotpee.farmhunter.Event.GamePlayerKillEvent;
 import com.github.hotpee.farmhunter.FarmHunter;
 import com.github.hotpee.farmhunter.Teams;
 import com.github.hotpee.farmhunter.Util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Explosive;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -31,9 +32,13 @@ public class DamageListener implements Listener {
         }
         if (p.getLastDamageCause() != null && p.getLastDamageCause() instanceof EntityDamageByEntityEvent){
             EntityDamageByEntityEvent event = (EntityDamageByEntityEvent)p.getLastDamageCause();
-            Entity damager = event.getDamager();
             for (Player players : arena.getPlayerAmount().keySet()){
-                Util.Message(players, ConfigManager.getPrefix() + "&3玩家 &e" + damager.getName() + " &3击杀了 &e" + p.getName());
+                if (event.getDamager() instanceof Projectile) {
+                    Projectile projectile = (Projectile) event.getDamager();
+                    if (projectile.getShooter() instanceof Player) {
+                        Util.Message(players, ConfigManager.getPrefix() + "&3玩家 &e" + ((Player) projectile.getShooter()).getName() + " &3击杀了 &e" + p.getName());
+                    }
+                }
             }
         }
 

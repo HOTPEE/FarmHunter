@@ -1,6 +1,8 @@
 package com.github.hotpee.farmhunter.Arena;
 
 import com.github.hotpee.farmhunter.ConfigManager.ConfigManager;
+import com.github.hotpee.farmhunter.Event.GameOverEvent;
+import com.github.hotpee.farmhunter.Event.GameStartEvent;
 import com.github.hotpee.farmhunter.FarmHunter;
 import com.github.hotpee.farmhunter.Task.GameLeftTimeTask;
 import com.github.hotpee.farmhunter.Task.LobbyCooldownTask;
@@ -17,6 +19,7 @@ import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -96,7 +99,16 @@ public class Arena {
         player.setLevel(0);
         playerAmount.remove(player);
         for (Player players : playerAmount.keySet()) {
+            ArenaScoreBoard.removeScoreboards(player);
             Util.Message(players, ConfigManager.getPrefix() + ConfigManager.getPlayersLeave().replaceAll("<0>", String.valueOf(playerAmount.size())).replaceAll("<1>", String.valueOf(this.getMaxPlayers())));
+        }
+        if (getPlayerAmount().size() < getMinPlayers()){
+            lct.cancel();
+            for (Player players : getPlayerAmount().keySet()) {
+                ArenaScoreBoard.lobbyScoreBoard(this.lct, this);
+                lct = null;
+                Util.Message(players, ConfigManager.getPrefix() + ConfigManager.getArenaNotEnough().replaceAll("<0>", String.valueOf(time)));
+            }
         }
         if (isStates()){
             if (playerAmount.size() < this.minPlayers){
@@ -111,16 +123,23 @@ public class Arena {
     }
 
     public void startCount() {
+        if (lct != null){
+            return;
+        }
         lct = new LobbyCooldownTask(this);
         lct.runTaskTimer(FarmHunter.getIns(), 0L, 20L);
     }
 
     public void startGame(){
+        if(gltt != null) {
+            return;
+        }
         gltt = new GameLeftTimeTask(this);
         gltt.runTaskTimer(FarmHunter.getIns(), 0L, 20L);
         if (ConfigManager.isBungee()){
             FarmHunter.BungeeState = true;
         }
+        Bukkit.getPluginManager().callEvent(new GameStartEvent(this));
         setStates(true);
         for (Player players : playerAmount.keySet()) {
             Util.Message(players, ConfigManager.getPrefix() + ConfigManager.getGameStart());
@@ -158,17 +177,21 @@ public class Arena {
         }
     }
     public void stopGame(){
+        gltt.getBb().removeAll();
+        this.lct = null;
+        this.gltt = null;
         Winner = getPlayerAmount().containsValue(Teams.HIDER) ? "躲避者" : "寻找者";
+        getGameOverInfo();
         Iterator<Player> iterator = playerAmount.keySet().iterator();
         while (iterator.hasNext()) {
             Player players = iterator.next();
+            ArenaScoreBoard.removeScoreboards(players);
             players.teleport(FarmHunter.getIns().mainLobby);
             players.getInventory().clear();
-            getGameOverInfo();
+            Bukkit.getPluginManager().callEvent(new GameOverEvent(this));
             DisguiseAPI.undisguiseToAll(players);
             iterator.remove();
         }
-        gltt.cancel();
         if (ConfigManager.isBungee()){
             new BukkitRunnable(){
 

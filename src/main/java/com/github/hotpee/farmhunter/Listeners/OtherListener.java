@@ -7,13 +7,11 @@ import com.github.hotpee.farmhunter.Util.Util;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerListPingEvent;
-import org.bukkit.inventory.ItemStack;
 
 public class OtherListener implements Listener {
     @EventHandler
@@ -26,6 +24,10 @@ public class OtherListener implements Listener {
             return;
         }
         Arena arena = FarmHunter.getIns().getArena().get(0);
+        if (FarmHunter.BungeeState){
+            p.kickPlayer("§c加入失败! 游戏已经开启!");
+            return;
+        }
         arena.addPlayers(p);
     }
 
