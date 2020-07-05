@@ -1,5 +1,5 @@
 name: FarmHunter
-version: 0.1.2-BETA
+version: 1.0.1-SNAPSHOT
 main: com.github.hotpee.farmhunter.FarmHunter
 api-version: 1.13
 softdepend: [LibsDisguises]

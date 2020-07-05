@@ -6,7 +6,6 @@ SeekerWait: 30
 gameOverRewards:
   - "give {player} stone 1"
 MainLobby: null
-
 BungeeCordMotd:
   InGame: "INGAME"
   Waiting: "WAITING"
@@ -33,7 +32,6 @@ Language:
   lobbyCooldown: "&b距离游戏开始还有 <0> 秒"
   gameStart: "&c游戏正式开始!"
   seekerStarted: "&c距离寻找者开始寻找还有 <0> 秒"
-  gameCooldown: "&c距离游戏结束还有 <0> 秒"
   gameOver: "&c游戏结束"
   gameOverInfo:
     - "&b&l&m--------------------------------------"

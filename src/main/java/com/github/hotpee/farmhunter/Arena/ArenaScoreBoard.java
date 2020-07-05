@@ -17,12 +17,17 @@ public class ArenaScoreBoard {
     private static ScoreboardManager sm;
     private static Scoreboard s;
     private static Objective o;
+    private static String Version = Bukkit.getServer().getClass().getPackage().getName().replace(".",",").split(",")[3];
 
     public static void lobbyScoreBoard(LobbyCooldownTask lct, Arena arena){
         scoreboards = ConfigManager.getScoreLobbyLore();
         sm = Bukkit.getScoreboardManager();
         s = sm.getNewScoreboard();
-        o = s.registerNewObjective("FarmHunter", "dummy", "");
+        if (Version.equals("v1_12_R1")){
+            o = s.registerNewObjective("FarmHunter", "dummy");
+        } else {
+            o = s.registerNewObjective("FarmHunter", "dummy", "");
+        }
         o.setDisplaySlot(DisplaySlot.SIDEBAR);
         o.setDisplayName(ChatColor.translateAlternateColorCodes('&', ConfigManager.getScorePrefix()));
         for (int i = 0; i < scoreboards.size(); i++) {
@@ -40,7 +45,11 @@ public class ArenaScoreBoard {
         scoreboards = ConfigManager.getScoreStartingLore();
         sm = Bukkit.getScoreboardManager();
         s = sm.getNewScoreboard();
-        o = s.registerNewObjective("FarmHunter", "dummy", "");
+        if (Version.equals("v1_12_R1")){
+            o = s.registerNewObjective("FarmHunter", "dummy");
+        } else {
+            o = s.registerNewObjective("FarmHunter", "dummy", "");
+        }
         o.setDisplaySlot(DisplaySlot.SIDEBAR);
         o.setDisplayName(ChatColor.translateAlternateColorCodes('&', ConfigManager.getScorePrefix()));
         for (int i = 0; i < scoreboards.size(); i++) {
@@ -61,7 +70,11 @@ public class ArenaScoreBoard {
         scoreboards = ConfigManager.getScoreGameLore();
         sm = Bukkit.getScoreboardManager();
         s = sm.getNewScoreboard();
-        o = s.registerNewObjective("FarmHunter", "dummy", "");
+        if (Version.equals("v1_12_R1")){
+            o = s.registerNewObjective("FarmHunter", "dummy");
+        } else {
+            o = s.registerNewObjective("FarmHunter", "dummy", "");
+        }
         o.setDisplaySlot(DisplaySlot.SIDEBAR);
         o.setDisplayName(ChatColor.translateAlternateColorCodes('&', ConfigManager.getScorePrefix()));
         for (int i = 0; i < scoreboards.size(); i++) {

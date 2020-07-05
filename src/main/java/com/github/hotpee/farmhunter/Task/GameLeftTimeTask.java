@@ -2,6 +2,8 @@ package com.github.hotpee.farmhunter.Task;
 
 import com.github.hotpee.farmhunter.Arena.Arena;
 import com.github.hotpee.farmhunter.Arena.ArenaScoreBoard;
+import com.github.hotpee.farmhunter.ConfigManager.ConfigManager;
+import com.github.hotpee.farmhunter.FarmHunter;
 import com.github.hotpee.farmhunter.Util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -19,10 +21,12 @@ public class GameLeftTimeTask extends BukkitRunnable {
     private int Totaltime;
     private Arena arena;
     private BossBar bb;
+    private int waitCount;
     public GameLeftTimeTask(Arena arena){
         this.arena = arena;
         this.time = arena.getTime();
         this.Totaltime = arena.getTime();
+        int waitCount = FarmHunter.getIns().getConfig().getInt("SeekerWait");
         this.bb = Bukkit.createBossBar("§6§l剩余时间: §b" + this.time, BarColor.YELLOW, BarStyle.SOLID);
         for (Player players : arena.getPlayerAmount().keySet()){
             bb.addPlayer(players);
@@ -35,6 +39,14 @@ public class GameLeftTimeTask extends BukkitRunnable {
 
     @Override
     public void run() {
+        if (Totaltime > time){
+            if (time > Totaltime - FarmHunter.getIns().getConfig().getInt("SeekerWait")) {
+                for (Player players : arena.getPlayerAmount().keySet()){
+                    Util.send(players, ConfigManager.getPrefix() + ConfigManager.getSeekerStarted().replaceAll("<0>", Integer.toString(waitCount)));
+                    waitCount--;
+                }
+            }
+        }
         bb.setTitle("§6§l剩余时间: §e§l" + this.time + " §6§l秒");
         bb.setProgress((double)time / Totaltime);
         for (Player players : arena.getPlayerAmount().keySet()){

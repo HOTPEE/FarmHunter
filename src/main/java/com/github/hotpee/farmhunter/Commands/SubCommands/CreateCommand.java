@@ -28,10 +28,10 @@ public class CreateCommand extends SubCommand {
         ar.set("time", Integer.valueOf(300));
         ar.set("maxPlayers", Integer.valueOf(16));
         ar.set("minPlayers", Integer.valueOf(2));
-        ar.set("seekerSpawn", player.getLocation());
-        ar.set("seekerWaitSpawn", player.getLocation());
-        ar.set("hiderSpawn", player.getLocation());
-        ar.set("lobbySpawn", player.getLocation());
+        Util.setLocation(ar.createSection("seekerSpawn"), player.getLocation());
+        Util.setLocation(ar.createSection("seekerWaitSpawn"), player.getLocation());
+        Util.setLocation(ar.createSection("hiderSpawn"), player.getLocation());
+        Util.setLocation(ar.createSection("lobbySpawn"), player.getLocation());
         try {
             FarmHunter.getIns().arenafile.save(FarmHunter.getIns().ArenaFile);
         } catch (IOException e) {

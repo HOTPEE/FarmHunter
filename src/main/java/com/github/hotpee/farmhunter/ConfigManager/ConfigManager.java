@@ -62,9 +62,6 @@ public class ConfigManager {
     public static String getSeekerStarted(){
         return FarmHunter.getIns().getConfig().getString("Language.seekerStarted").replaceAll("§","&");
     }
-    public static String getGameCooldown(){
-        return FarmHunter.getIns().getConfig().getString("Language.gameCooldown").replaceAll("§","&");
-    }
     public static String getGameOver(){
         return FarmHunter.getIns().getConfig().getString("Language.gameOver").replaceAll("§","&");
     }

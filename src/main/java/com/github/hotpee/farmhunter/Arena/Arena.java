@@ -48,10 +48,10 @@ public class Arena {
         this.maxPlayers = arena.getInt("ArenaList." + name + ".maxPlayers");
         this.minPlayers = arena.getInt("ArenaList." + name + ".minPlayers");
         this.time = arena.getInt("ArenaList." + name + ".time");
-        this.HiderSpawn = arena.getLocation("ArenaList." + name + ".hiderSpawn");
-        this.SeekerSpawn = arena.getLocation("ArenaList." + name + ".seekerSpawn");
-        this.SeekerWaitSpawn = arena.getLocation("ArenaList." + name + ".seekerWaitSpawn");
-        this.lobbyLocation = arena.getLocation("ArenaList." + name + ".lobbySpawn");
+        this.HiderSpawn = Util.getLocation(arena.getConfigurationSection("ArenaList." + name + ".hiderSpawn"));
+        this.SeekerSpawn = Util.getLocation(arena.getConfigurationSection("ArenaList." + name + ".seekerSpawn"));
+        this.SeekerWaitSpawn = Util.getLocation(arena.getConfigurationSection("ArenaList." + name + ".seekerWaitSpawn"));
+        this.lobbyLocation = Util.getLocation(arena.getConfigurationSection("ArenaList." + name + ".lobbySpawn"));
     }
 
     public void addTeams(){
@@ -188,6 +188,7 @@ public class Arena {
             ArenaScoreBoard.removeScoreboards(players);
             players.teleport(FarmHunter.getIns().mainLobby);
             players.getInventory().clear();
+            Util.send(players, ConfigManager.getPrefix() + ConfigManager.getGameOver());
             Bukkit.getPluginManager().callEvent(new GameOverEvent(this));
             DisguiseAPI.undisguiseToAll(players);
             iterator.remove();
@@ -203,6 +204,7 @@ public class Arena {
         }
         setStates(false);
     }
+
     public int SeekerAmount(){
         return (int) Math.ceil(getPlayerAmount().size() / 3.0);
     }
