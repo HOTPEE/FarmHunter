@@ -4,6 +4,7 @@ import com.github.hotpee.farmhunter.ConfigManager.ConfigManager;
 import com.github.hotpee.farmhunter.Event.GameOverEvent;
 import com.github.hotpee.farmhunter.Event.GameStartEvent;
 import com.github.hotpee.farmhunter.FarmHunter;
+import com.github.hotpee.farmhunter.Listeners.DamageListener;
 import com.github.hotpee.farmhunter.Task.GameLeftTimeTask;
 import com.github.hotpee.farmhunter.Task.LobbyCooldownTask;
 import com.github.hotpee.farmhunter.Teams;
@@ -22,6 +23,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+import sun.awt.util.IdentityArrayList;
 
 import java.io.File;
 import java.util.*;
@@ -76,6 +78,9 @@ public class Arena {
         if (playerAmount.containsKey(player)){
             Util.Message(player,ConfigManager.getPrefix() + ConfigManager.getInGame());
             return;
+        }
+        if (DamageListener.deathState.getOrDefault(player, false)){
+            DamageListener.deathState.put(player, false);
         }
         player.setHealth(20.0);
         player.teleport(lobbyLocation);
@@ -178,6 +183,7 @@ public class Arena {
     }
     public void stopGame(){
         gltt.getBb().removeAll();
+        gltt.cancel();
         this.lct = null;
         this.gltt = null;
         Winner = getPlayerAmount().containsValue(Teams.HIDER) ? "躲避者" : "寻找者";
@@ -186,16 +192,16 @@ public class Arena {
         while (iterator.hasNext()) {
             Player players = iterator.next();
             ArenaScoreBoard.removeScoreboards(players);
+            Util.send(players, FarmHunter.getIns().getConfig().getString("BungeeCordHub"));
+            DamageListener.deathState.put(players, true);
             players.teleport(FarmHunter.getIns().mainLobby);
             players.getInventory().clear();
-            Util.send(players, ConfigManager.getPrefix() + ConfigManager.getGameOver());
             Bukkit.getPluginManager().callEvent(new GameOverEvent(this));
             DisguiseAPI.undisguiseToAll(players);
             iterator.remove();
         }
         if (ConfigManager.isBungee()){
             new BukkitRunnable(){
-
                 @Override
                 public void run() {
                     FarmHunter.getIns().getServer().shutdown();

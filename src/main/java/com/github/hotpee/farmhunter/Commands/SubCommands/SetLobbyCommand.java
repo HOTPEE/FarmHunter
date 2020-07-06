@@ -25,7 +25,7 @@ public class SetLobbyCommand extends SubCommand {
         }
         String name = args[1];
         ConfigurationSection sec = FarmHunter.getIns().arenafile.getConfigurationSection("ArenaList." + name);
-        sec.set("lobbySpawn", player.getLocation());
+        Util.setLocation(sec.createSection("lobbySpawn"), player.getLocation());
         try {
             FarmHunter.getIns().arenafile.save(FarmHunter.getIns().ArenaFile);
         } catch (IOException e) {

@@ -38,6 +38,9 @@ public class InteractListener implements Listener {
         if (!(arena.isStates())){
             return;
         }
+        if (!(p.getEquipment().getItemInMainHand().getItemMeta().hasDisplayName() && p.getEquipment().getItemInMainHand().hasItemMeta())) {
+            return;
+        }
         if (p.getEquipment().getItemInMainHand().getItemMeta().getDisplayName().equals(ItemManager.getItemName("SwapWand"))){
             if (e.getRightClicked() instanceof Player){
                 return;
@@ -81,13 +84,12 @@ public class InteractListener implements Listener {
             return;
         }
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK){
-            if (e.getItem().hasItemMeta()){
-                if (e.getItem().getItemMeta().getDisplayName().equals(ItemManager.getItemName("LeaveGame"))){
-                    arena.leaveGame(p);
-                    e.setCancelled(true);
-                }
-            } else {
+            if (!(e.getItem().getItemMeta().hasDisplayName() && e.getItem().hasItemMeta())) {
                 return;
+            }
+            if (e.getItem().getItemMeta().getDisplayName().equals(ItemManager.getItemName("LeaveGame"))){
+                arena.leaveGame(p);
+                e.setCancelled(true);
             }
         }
         if (!(arena.isStates())){

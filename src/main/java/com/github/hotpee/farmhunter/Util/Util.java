@@ -1,6 +1,7 @@
 package com.github.hotpee.farmhunter.Util;
 
 import com.github.hotpee.farmhunter.Arena.Arena;
+import com.github.hotpee.farmhunter.ConfigManager.ConfigManager;
 import com.github.hotpee.farmhunter.FarmHunter;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -30,11 +31,14 @@ public class Util {
     }
 
     public static void send(Player player, String server) {
-        ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        out.writeUTF("ConnectOther");
-        out.writeUTF(player.getName());
-        out.writeUTF(server);
-        player.sendPluginMessage(FarmHunter.getIns(), "BungeeCord", out.toByteArray());
+        if (ConfigManager.isBungee()){
+            ByteArrayDataOutput out = ByteStreams.newDataOutput();
+            out.writeUTF("ConnectOther");
+            out.writeUTF(player.getName());
+            out.writeUTF(server);
+            player.sendPluginMessage(FarmHunter.getIns(), "BungeeCord", out.toByteArray());
+        }
+
     }
 
     public static void Help(Player player) {

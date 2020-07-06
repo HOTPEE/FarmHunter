@@ -19,7 +19,10 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
+import java.util.HashMap;
+
 public class DamageListener implements Listener {
+    public static HashMap<Player, Boolean> deathState = new HashMap<>();
     @EventHandler
     public void death(PlayerDeathEvent e){
         Player p = e.getEntity().getPlayer();
@@ -129,6 +132,11 @@ public class DamageListener implements Listener {
     public void respawn(PlayerRespawnEvent e){
         Player p = e.getPlayer();
         Arena arena = Util.getArena(p);
+        if (deathState.getOrDefault(p, false)){
+            Bukkit.getScheduler().runTaskLater(FarmHunter.getIns(),()->p.teleport(FarmHunter.getIns().mainLobby),5L);
+            deathState.put(p, false);
+            return;
+        }
         if (arena == null){
             return;
         }
@@ -136,6 +144,7 @@ public class DamageListener implements Listener {
             return;
         }
         Util.MessageTitle(p, "&b", "&e已重生!");
-        Bukkit.getScheduler().runTaskLater(FarmHunter.getIns(),()->p.teleport(arena.getSeekerSpawn()),10L);
+        Bukkit.getScheduler().runTaskLater(FarmHunter.getIns(),()->p.teleport(arena.getSeekerSpawn()),5L);
+
     }
 }

@@ -39,14 +39,6 @@ public class GameLeftTimeTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        if (Totaltime > time){
-            if (time > Totaltime - FarmHunter.getIns().getConfig().getInt("SeekerWait")) {
-                for (Player players : arena.getPlayerAmount().keySet()){
-                    Util.send(players, ConfigManager.getPrefix() + ConfigManager.getSeekerStarted().replaceAll("<0>", Integer.toString(waitCount)));
-                    waitCount--;
-                }
-            }
-        }
         bb.setTitle("§6§l剩余时间: §e§l" + this.time + " §6§l秒");
         bb.setProgress((double)time / Totaltime);
         for (Player players : arena.getPlayerAmount().keySet()){
